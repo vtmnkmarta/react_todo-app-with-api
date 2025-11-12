@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import cn from 'classnames';
 import { UserWarning } from './UserWarning';
 import { useEffect, useRef, useState } from 'react';
@@ -181,7 +179,7 @@ export const App: React.FC = () => {
     todosComplited.forEach(todoComplited => handleDeleteTodo(todoComplited.id));
   };
 
-  const onCompletedChange = async (id: number) => {
+  const handleCompletedChange = async (id: number) => {
     const currentTodo = todos.find(todo => todo.id === id);
 
     if (!currentTodo) {
@@ -202,7 +200,7 @@ export const App: React.FC = () => {
 
     todos.forEach(todo => {
       if (todo.completed !== newStatus) {
-        onCompletedChange(todo.id);
+        handleCompletedChange(todo.id);
       }
     });
   };
@@ -240,7 +238,7 @@ export const App: React.FC = () => {
             <TodoItem
               key={todo.id}
               todo={todo}
-              onCompletedChange={onCompletedChange}
+              onCompletedChange={handleCompletedChange}
               onDelete={handleDeleteTodo}
               onEditing={setEditingTodo}
               editingTodo={editingTodo}
