@@ -15,6 +15,11 @@ type TodoItemProps = {
   onEditing: (todoId: Todo['id'] | null) => void;
   onEditingTodo: (todo: Todo) => void;
 };
+
+type EditingEvent =
+  | React.FormEvent<HTMLFormElement>
+  | React.FocusEvent<HTMLInputElement>;
+
 export const TodoItem: React.FC<TodoItemProps> = ({
   todo,
   editingTodo,
@@ -26,7 +31,9 @@ export const TodoItem: React.FC<TodoItemProps> = ({
 }) => {
   const [updatedTitle, setUpdatedTitle] = useState<string>(todo.title);
 
-  const handleOnSubmitEditingForm = () => {
+  const handleSubmitEditingForm = (event: EditingEvent) => {
+    event.preventDefault();
+
     const trimmedUpdatedTitle = updatedTitle.trim();
 
     if (!trimmedUpdatedTitle) {
@@ -51,7 +58,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
     onEditingTodo(updatedTodo);
   };
 
-  const handleOnKeyUp = (
+  const handleKeyUp = (
     keyboardEvent: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (keyboardEvent.key === 'Escape') {
@@ -75,26 +82,16 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       </label>
 
       {editingTodo === todo.id ? (
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-
-            handleOnSubmitEditingForm();
-          }}
-        >
+        <form onSubmit={handleSubmitEditingForm}>
           <input
             autoFocus
             data-cy="TodoTitleField"
             type="text"
             className="todo__title-field"
             placeholder="Empty todo will be deleted"
-            onKeyUp={handleOnKeyUp}
+            onKeyUp={handleKeyUp}
             value={updatedTitle}
-            onBlur={event => {
-              event.preventDefault();
-
-              handleOnSubmitEditingForm();
-            }}
+            onBlur={handleSubmitEditingForm}
             onChange={inputEvent =>
               setUpdatedTitle(inputEvent.target.value.trimStart())
             }

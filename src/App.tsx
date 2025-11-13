@@ -19,19 +19,19 @@ const getfilteredTodos = (
   todos: Todo[],
   { status }: { status: TodoStatusFilter },
 ) => {
-  let filteredTodos = [...todos];
+  const filteredTodos = [...todos];
 
-  if (status !== TodoStatusFilter.all) {
-    filteredTodos = filteredTodos.filter(todo => {
-      if (status === TodoStatusFilter.completed) {
-        return todo.completed;
-      }
-
-      return !todo.completed;
-    });
+  if (status === TodoStatusFilter.all) {
+    return todos;
   }
 
-  return filteredTodos;
+  return filteredTodos.filter(todo => {
+    if (status === TodoStatusFilter.completed) {
+      return todo.completed;
+    }
+
+    return !todo.completed;
+  });
 };
 
 export const App: React.FC = () => {

@@ -11,7 +11,7 @@ export const CreateTodoForm = forwardRef<HTMLInputElement, CreateTodoFormProps>(
 
     const handleClearTitle = () => setNewTitle('');
 
-    const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const trimmedTitle = newTitle.trim();
 
@@ -27,7 +27,7 @@ export const CreateTodoForm = forwardRef<HTMLInputElement, CreateTodoFormProps>(
     };
 
     return (
-      <form onSubmit={handleOnSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           ref={ref}
           data-cy="NewTodoField"
